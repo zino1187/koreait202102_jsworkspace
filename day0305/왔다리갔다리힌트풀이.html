@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+.mm{
+
+}
+#hero{
+    position: absolute;/*부모인 body를 기준으로 위치설정할 거임*/
+    left:0px;
+    top:200px;
+}    
+</style>
+<script>
+var flag=true;  //방향을 결정짓는 변수
+var x=0; //우주선의 x좌표를 결정할 변수
+var step=10; //몇씩 움직일지 결정
+
+function move(){
+    step= (flag)?  step : -step;
+    x = x + step;
+    console.log("x=",x ,"step = ", step);
+    flag = (x%300==0)?  false:true; //300으로 나누어질때는 false, x가 0일때는 나머지가 300이 되므로 true로 바뀜
+    document.querySelector("h1").innerText="x값:"+x;
+    document.querySelector("#hero").style.left=x+"px";
+}
+</script>
+</head>
+<body>
+    <button onClick="move()">수동으로 이동</button>
+   <h1>x값:0</h1>
+
+    <img id="hero" src="../images/plane.png" width="50px">
+
+
+</body>
+</html>
