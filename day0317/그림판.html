@@ -43,7 +43,7 @@ function init(){
     content = document.getElementById("content");
     log = document.getElementById("log");
     createRect();//사각형 생성 호출!!!
-    setInterval("recPlay()",200);// clearTimeout 호출하지 않는한 무한동작
+    setInterval("recPlay()",20);// clearTimeout 호출하지 않는한 무한동작
 
     //노란색 화면을 대상으로 마우스를 눌렀다면 (그림 그리고 싶음 flag=true)
     content.addEventListener("mousedown", function(){
@@ -75,10 +75,10 @@ function createRect(){
             lineBox.push(rect);//생성된 사각형을 배열에 담자 1차원 배열
             
             //생성되는 모든~~사각형에 대해 마우스 이벤트를 부여하자!!
-            rect.addEventListener("click", function(){
+            rect.addEventListener("mouseover", function(){
                 //지금 이벤트를 일으킨 요소의 style의 배경색 변경
                 //지금 이벤트를 일으킨 요소를 this
-                if(true){
+                if(flag){ // <--- 여기요~~
                     this.style.background="red";
                     // 층,호수를 구해서 일차원 배열로 저장한 후, 최종적으로 recordArray에 저장!!
                     var pos=this.id.split(",");//split()는 컴마를 기준으로 문자열을 나누고, 그 결과를 배열로 반환해준다 
