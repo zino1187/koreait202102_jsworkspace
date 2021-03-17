@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이차원배열은 데이터베이스다</title>
+<style>
+body{margin:0px;}    
+.wrapper{
+    width:1200px;
+    height:600px;
+    background-color: green;
+    overflow:hidden;/*자식이 float 되었기 때문에..*/
+}    
+#content{
+    width:1000px;
+    height:100%;
+    background-color: yellow;
+    float:left;
+    overflow: hidden;/*rect라는 div자식이 float 되었으므로...*/
+}
+#log{
+    width:200px;
+    height:100%;
+    background:yellowgreen;
+    float:left;
+}
+</style>
+<script>
+var content;
+var log;    
+var aptBox=[]; //lineBox를 모아놓을 바깥쪽 배열(지금은 1차원이다..)
+var border=0; //처음에는 안보이게...(디버깅할때만 개발자를 위해 보여짐)
+
+function init(){
+    content = document.getElementById("content");
+    log = document.getElementById("log");
+    createRect();//사각형 생성 호출!!!
+}   
+//그림판의 픽셀을 표현할 사각형 생성
+function createRect(){
+    for(var a=0;a<(600/5);a++){//층수만큼 또 반복!!!
+        var lineBox=[]; //한줄에 존재하는 모든 사각형을 담게될 배열..
+        for(var i=0;i<(1000/5);i++){
+            var rect=document.createElement("div");    
+            rect.style.border=border+"px solid red";
+            rect.style.width=5+"px"; //모공의 크기..
+            rect.style.height=5+"px";
+            rect.style.boxSizing="border-box";//border가 물리적 크기에 영향을 주지않음
+            rect.style.float="left";
+            content.appendChild(rect);//그림판에 부착!!
+            lineBox.push(rect);//생성된 사각형을 배열에 담자 1차원 배열
+            
+            //생성되는 모든~~사각형에 대해 마우스 이벤트를 부여하자!!
+            rect.addEventListener("mouseover", function(){
+                //지금 이벤트를 일으킨 요소의 style의 배경색 변경
+                //지금 이벤트를 일으킨 요소를 this
+                this.style.background="red";
+            });
+
+        }
+        //하나의 lineBox가 완성된 후, aptBox에 담자!!
+        aptBox.push(lineBox);//이 시점부터 2차원배열이 된다!!
+    }
+}
+function setFlag(){
+    border=(border==0)?1:0; //결정하지 말고, 1 or 0 값 와야함
+
+    //이미 생성된 사각형들의 border를 조절!!!
+    //여러분들이 해결해 보세요, ( 이차원 배열인 aptBox 로부터 모든 요소의 border를 0으로 주기 )
+    for(var a=0;a<aptBox.length;a++){ //아파트 층수만큼
+        for(var i=0;i<aptBox[a].length;i++){//호수만큼
+            //aptBox[a] 은 lineBox를 이름대신 배열의 요소를 이용하여 가리키는 것!!
+            aptBox[a][i].style.border=border+"px solid red";
+        }
+    }
+}
+window.addEventListener("load", function(){
+    init();
+});
+</script>
+</head>
+<body>
+    <div class="wrapper">
+        <div id="content"></div>
+        <div id="log"></div>
+    </div>
+    <button>Rec</button>
+    <button>Erase</button>
+    <button>Play</button>
+    <button onClick="setFlag()">debug 모드</button>
+</body>
+</html>
