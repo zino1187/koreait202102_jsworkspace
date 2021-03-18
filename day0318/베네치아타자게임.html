@@ -24,6 +24,7 @@
     height:100%;
     background-color: burlywood;
     float:left;
+    position: relative; /*span 단어 자식 때문에*/
 }
 #dashBoard input{
     width:95%;
@@ -50,11 +51,35 @@
 var hpBox;
 var content;
 var scoreArea;
+var keyword;
+var span; //제어할 단어 span
+var y=-8; //단어의 초기 y축 위치
+var velY=10; //몇 발자국씩 내려올지, 속도를 결정하는 변수
+var score=0; //점수를 누적시킬 전연변수
 
 function init(){
     hpBox = document.getElementById("hpBox");
     content = document.getElementById("content");
     scoreArea = document.getElementById("scoreArea");
+    keyword = document.getElementById("keyword");
+
+    //한자를 입력 완료하는 시점!! keyup
+    keyword.addEventListener("keyup", function(){
+        //엔터키를 누르면..단어와 입력데이터와 비교!! 
+        //console.log(event.keyCode); //C 대문자임에 주의!
+
+        if(event.keyCode==13){//엔터를 쳤을때만..
+            if(span.innerText==keyword.value){ //단어를 비교하자!!
+                //span은 완전히 제거!!!
+                //화면에 부착할때는 appendChild() 지만, 제거할때는 removeChild()
+                content.removeChild(span);
+                keyword.value="";//텍스트 입력 초기화!! 
+                score+=10; //10누적
+                printScore();//점수 출력
+            }
+        }
+
+    });
 }   
 
 function createHp(){
@@ -73,13 +98,36 @@ function createHp(){
 
 //점수 출력을 전담하는 함수 정의
 function printScore(){
-    scoreArea.innerText="0 점";
+    scoreArea.innerText=score+" 점";
+}
+
+//단어 생성하기~
+function createWord(){
+    //단어를 감싸게 될 요소의 선택 기준?  단어의 길이 만큼만 감쌀 수 있는 inline방식 중 하나를 선택하자!!
+    //span 은 단지 감싸는게 목적이고, inline방식이라서, 너비가 컨텐츠만큼만 확보된다.(wrapping  or pack)
+    span = document.createElement("span");
+    span.innerText="나비";
+    span.style.backgroundColor="white";
+    span.style.position="absolute";  /*content div 를 기준으로 위치 지정할 예정*/  
+    span.style.left=100+"px";
+    span.style.top=y+"px";
+    
+    content.appendChild(span);//화면에 부착!!
+}
+
+//단어 점점 내려오는 함수!!
+function dropDown(){
+    y=y+velY;
+    span.style.top=y+"px";
 }
 
 window.addEventListener("load", function(){
     init();
     createHp();
     printScore();
+    createWord();
+    setInterval("dropDown()",300);
+    keyword.focus();
 });
 </script>
 </head>
@@ -87,7 +135,7 @@ window.addEventListener("load", function(){
     <div id="wrapper">
         <div id="dashBoard">
             <div id="hpBox"></div>
-            <input type="text" placeholder="단어입력">
+            <input type="text" placeholder="단어입력" id="keyword">
             <div id="scoreArea"></div>
         </div>
         <div id="content"></div>
