@@ -39,14 +39,22 @@
     box-sizing: border-box;
     padding:4px 2px 2px 2px; /*left  top  right  bottom*/
 }
+#scoreArea{
+    font-size:60px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 100px;
+}
 </style>
 <script>
 var hpBox;
 var content;
+var scoreArea;
 
 function init(){
     hpBox = document.getElementById("hpBox");
     content = document.getElementById("content");
+    scoreArea = document.getElementById("scoreArea");
 }   
 
 function createHp(){
@@ -63,9 +71,15 @@ function createHp(){
     }
 }
 
+//점수 출력을 전담하는 함수 정의
+function printScore(){
+    scoreArea.innerText="0 점";
+}
+
 window.addEventListener("load", function(){
     init();
     createHp();
+    printScore();
 });
 </script>
 </head>
@@ -74,6 +88,7 @@ window.addEventListener("load", function(){
         <div id="dashBoard">
             <div id="hpBox"></div>
             <input type="text" placeholder="단어입력">
+            <div id="scoreArea"></div>
         </div>
         <div id="content"></div>
     </div>
