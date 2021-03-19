@@ -63,7 +63,12 @@ var keyword;
 var spanArray=[]; //단어가 10개이상되므로, span도 배열로 담자!! 한개로는 부족하다!!
 var velY=10; //몇 발자국씩 내려올지, 속도를 결정하는 변수
 var score=0; //점수를 누적시킬 전연변수
-var wordArray=["마우스","광화문","핸드폰","지구","개구리","태풍","콘센트","자바","강아지","실로폰"];
+var wordArray=[
+    ["마우스","광화문","핸드폰","지구","개구리","태풍","콘센트","자바","강아지","실로폰"],
+    ["지하철","사과","지갑","건널목","블랙홀","아비규환","전기","도서관","아스팔트","나무"],
+    ["방송국","구두","식량","온난화","버섯","늦잠","노트북","염치","학교","주사"],
+    ["재벌","바다","돼지","습기","구리","한강","벽돌","게임","김치","이순신"]
+]
 var hpArray=[]; //hp상자들이 순서가 있어야, 차례대로 지울 수 있기 때문에 배열로 선언
 var dropFlag=true;  //게임 실행과 동시엔 단어가 낙하해야 하므로 true
 
@@ -126,9 +131,11 @@ function printScore(){
 function createWord(){
     //단어를 감싸게 될 요소의 선택 기준?  단어의 길이 만큼만 감쌀 수 있는 inline방식 중 하나를 선택하자!!
     //span 은 단지 감싸는게 목적이고, inline방식이라서, 너비가 컨텐츠만큼만 확보된다.(wrapping  or pack)
-    for(var i=0;i<wordArray.length;i++){
+    var n=getRandom(wordArray.length);//몇번째 배열을 사용할지 결정짓는 랜덤값
+    
+    for(var i=0;i<wordArray[n].length;i++){
         var span = document.createElement("span");
-        span.innerText=wordArray[i];
+        span.innerText=wordArray[n][i];
         span.style.backgroundColor="white";
         span.style.position="absolute";  /*content div 를 기준으로 위치 지정할 예정*/  
         span.style.left=0+(100*i)+"px";
