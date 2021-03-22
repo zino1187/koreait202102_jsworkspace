@@ -91,9 +91,12 @@ function getList(){
 
     //db에 있는 데이터를 이용하여 현재까지 누적된 회원의 정보를 출력하기!!
     for(var i=memberArray.length-1;i>=0;i--){ //층수만큼 반복   
-        var id=memberArray[i][0];
+        var id=memberArray[i][0];//id
+        var name=memberArray[i][1];//name
+        var phone=memberArray[i][2];//phone
+        var money=memberArray[i][3];//money
 
-        tag+="<tr onClick=\"getDetail('"+id+"')\">";   
+        tag+="<tr onClick=\"getDetail('"+id+"' , '"+name+"', '"+phone+"', "+money+")\">";   
         tag+="<td>"+(i+1)+"</td>"; //얘는 배열에 넣은 적이 없으므로, 반복문에서 처리 불가
         for(var a=0;a<memberArray[i].length;a++){            
             tag+="<td>"+memberArray[i][a]+"</td>";
@@ -151,9 +154,17 @@ function searchMember(){
     getList();//화면갱신
 }
 
-//회원 1명에 대한 정보 출력!!(상세보기)
-function getDetail(n){
-    alert("선택한 회원은"+n);
+//회원 1명에 대한 정보 출력!!(상세보기) - 방법 : 각 데이터마다 매칭되는 매개변수를
+//사용하는 방법 
+function getDetail(id, name, phone, money){
+    t_id2.value=id;
+    t_name2.value=name;
+    t_phone2.value=phone;
+    t_money2.value=money;    
+}
+
+function getDetail2(){
+
 }
 window.addEventListener("load", function(){
     init();
