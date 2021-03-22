@@ -96,7 +96,8 @@ function getList(){
         var phone=memberArray[i][2];//phone
         var money=memberArray[i][3];//money
 
-        tag+="<tr onClick=\"getDetail('"+id+"' , '"+name+"', '"+phone+"', "+money+")\">";   
+        /* tag+="<tr onClick=\"getDetail('"+id+"' , '"+name+"', '"+phone+"', "+money+")\">";   */
+        tag+="<tr onClick=\"getDetail2('"+memberArray[i]+"')\">";   
         tag+="<td>"+(i+1)+"</td>"; //얘는 배열에 넣은 적이 없으므로, 반복문에서 처리 불가
         for(var a=0;a<memberArray[i].length;a++){            
             tag+="<td>"+memberArray[i][a]+"</td>";
@@ -163,9 +164,18 @@ function getDetail(id, name, phone, money){
     t_money2.value=money;    
 }
 
-function getDetail2(){
+//매개변수를 4개쓰지말고,  1차원 배열을 통째로 넘겨받아 보자!!
+function getDetail2(arr){
+    var member=arr.split(","); //쉼표를 구분으로, 문자열 분리!! 결과는 문자열 배열이 반환!!
+    console.log("넘겨받은 문자열을 배열로 복원하니..", member);
+    //화면에 출력!!
+    t_id2.value=member[0];
+    t_name2.value=member[1];
+    t_phone2.value=member[2];
+    t_money2.value=member[3];    
 
 }
+
 window.addEventListener("load", function(){
     init();
 });
