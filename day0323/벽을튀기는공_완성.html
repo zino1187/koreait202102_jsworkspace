@@ -29,8 +29,14 @@ function createWall(){
 }
 
 function createBall(){
-   var ball = new Ball(wrapper, "../images/ball/"+ballArray[getRandom(ballArray.length)]);   //생성되는 공은 wrapper에 부착됨!!! 
-   balls.push(ball); //볼을 담아놓을 배열에 방금 태어난 볼을 추가!!
+    var velX = getRandom(10)+1; //1~10
+    var velY = getRandom(10)+1; //1~10
+
+    var ball = new Ball(wrapper 
+    , "../images/ball/"+ballArray[getRandom(ballArray.length)]
+    , 35, 35, velX, velY);   //생성되는 공은 wrapper에 부착됨!!! 
+
+    balls.push(ball); //볼을 담아놓을 배열에 방금 태어난 볼을 추가!!
 }
 
 //키보드의 스페이스바를 누르면, 볼을 생성해보자!!
