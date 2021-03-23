@@ -6,8 +6,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
 <script src="../js/Ball.js"></script>
+<script src="../js/lib.js"></script>
 <script>
 var wrapper;
+//공이 랜덤하게 나올수 있도록, 배열로 선언해두자!!
+var ballArray=["ball.webp","balling.webp","bascket.webp","base.webp","bascket2.webp"
+,"bill.webp","picaball.webp","valley.webp","xbox.webp"];
+var balls=[]; //볼 여러개를 가리킬 수 있는 전역 배열
 
 function init(){
     createWall();
@@ -24,7 +29,8 @@ function createWall(){
 }
 
 function createBall(){
-    var ball = new Ball(wrapper);   //생성되는 공은 wrapper에 부착됨!!! 
+   var ball = new Ball(wrapper, "../images/ball/"+ballArray[getRandom(ballArray.length)]);   //생성되는 공은 wrapper에 부착됨!!! 
+   balls.push(ball); //볼을 담아놓을 배열에 방금 태어난 볼을 추가!!
 }
 
 //키보드의 스페이스바를 누르면, 볼을 생성해보자!!
@@ -34,9 +40,18 @@ function space(){
         createBall();
     }
 }
+function gameLoop(){
+    //배열에 들어있는 만큼만 돌려야..따라서 배열에 아무것도 안돈다!!
+    //즉 undefined 조건 조차 필요X
+    for(var i=0;i<balls.length;i++){
+        balls[i].move();//배열에 들어있는 공들을 하나씩 끄집어 내자!!
+    }
+}
 
 window.addEventListener("load", function(){
     init();
+    setInterval("gameLoop()", 10);
+
 });
 </script>
 </head>
