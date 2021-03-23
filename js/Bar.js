@@ -34,6 +34,10 @@ class Bar{
         this.div.style.top=this.y+"px";
         //배경색 
         this.div.style.background=this.bg;  
+        //테두리 
+        this.div.style.border="1px solid black";
+        //box모델의 크기에 영향을 주지말기!!
+        this.div.style.boxSizing="border-box";
         
         //부모요소에 부착!!
         this.container.appendChild(this.div);
@@ -43,5 +47,7 @@ class Bar{
     render(){//화면에 보여질 처리 = 게임 분야에서는 렌더링
         //물체위치=기존물체위치 + 비율*(남은거리(목표지점-물체기존위치))
         this.div.style.height=parseFloat(this.div.style.height)+this.a*(this.targetH-parseFloat(this.div.style.height)) +"px";
+        
+        this.div.innerText=this.div.style.height;
     }
 }
