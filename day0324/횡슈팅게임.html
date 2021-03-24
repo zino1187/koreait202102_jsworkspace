@@ -21,19 +21,45 @@
 <script>
 var wrapper;    
 var bgX=0; //배경처리용 변수
+var plane; //주인공 제어를 위한 전역변수
 
 function init(){
     wrapper = document.getElementById("wrapper");
+    //게임가동과 동시에 주인공 등장 
+    createHero();
+
+    //body태그에 키보드 이벤트 연결 
+    document.body.addEventListener("keydown", function(){
+        joystick();
+    });
 }   
+
+//키보드 제어 함수 : space bar:총알,  b : 폭탄 , 아이템공격: i
+function joystick(){
+    var key = event.keyCode; //아스키 코드 구하기
+    console.log("당신이 누른 키보드와 매칭되는 십진수 아스키 코드는 ", key);
+
+    //4가지 조건을 따져봐야 한다... if 단일조건,  else if 다중조건 , if ~ else 조건,반대의경우 
+
+}
+
+//주인공 등장 
+function createHero(){
+    //constructor(container, src, width, height, x, y)
+    plane = new Plane(wrapper, "../images/shooting/plane.png", 70,45,100,200);
+}
+
 //배경 처리
 function bgEffect(){
     bgX--;
     wrapper.style.backgroundPosition=bgX+"px  0px";
 } 
+
 function gameLoop(){
-    console.log("저 심장 뛰어요!!");
+    //console.log("저 심장 뛰어요!!");
     bgEffect();
 }   
+
 window.addEventListener("load", function(){
     init();
     setInterval("gameLoop()",10); //fps
