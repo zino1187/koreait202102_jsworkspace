@@ -19,10 +19,12 @@
 }    
 </style>
 <script src="../js/Plane.js"></script>
+<script src="../js/Bullet.js"></script>
 <script>
 var wrapper;    
 var bgX=0; //배경처리용 변수
 var plane; //주인공 제어를 위한 전역변수
+var bulletArray=new Array(); //총알 여러를 가리키기 위한 배열 전역변수
 
 function init(){
     wrapper = document.getElementById("wrapper");
@@ -71,10 +73,18 @@ function pressDown(){
         case 37: plane.velX=-5;break;     
         case 40: plane.velY=5;break;     
         case 38: plane.velY=-5;break;     
+        case 32: fire();break;     
     }
     plane.render();//렌더링(그래픽 처리)
 
     //상, 하 y
+}
+
+//총알을 등장시키자!!
+function fire(){
+    //constructor(container, src, width, height, x, y, velX, velY)
+    var bullet = new Bullet(wrapper, "../images/shooting/ball.png",25,25, plane.x, plane.y, 10,0);
+    bulletArray.push(bullet); //총알 배열에 방금 태어난 총알 인스턴스 추가하기!!
 }
 
 //주인공 등장 
@@ -95,6 +105,12 @@ function gameLoop(){
 
     plane.tick();//물리량 변화
     plane.render();//그래픽 처리
+
+    //생성된 모든~~총알에 대해 각각 tick(), render() 호출
+    for(var i=0; i<bulletArray.length;i++){
+        bulletArray[i].tick();
+        bulletArray[i].render();
+    }
 }   
 
 window.addEventListener("load", function(){
