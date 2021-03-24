@@ -17,20 +17,32 @@
     position: relative;
     overflow: hidden;
 }    
+#info{
+    background: yellow;
+    opacity: 0.4;
+}
 </style>
 <script src="../js/lib.js"></script>
 <script src="../js/Plane.js"></script>
 <script src="../js/Bullet.js"></script>
+<script src="../js/Enemy.js"></script>
 <script>
 var wrapper;    
+var info;
 var bgX=0; //배경처리용 변수
 var plane; //주인공 제어를 위한 전역변수
-var bulletArray=new Array(); //총알 여러를 가리키기 위한 배열 전역변수
+var bulletArray=new Array(); //총알 여럿을 가리키기 위한 배열 전역변수
+var enemyArray=[]; //적군 여럿을 가리키기 위한 배열 전역변수
+var enemySrc=["e1.png","e2.png","e3.png","e4.png","e5.png"];
 
 function init(){
     wrapper = document.getElementById("wrapper");
+    info = document.getElementById("info");
     //게임가동과 동시에 주인공 등장 
     createHero();
+
+    //적군등장 
+    createEnemy();
 
     //body태그에 키보드 이벤트 연결 
     document.body.addEventListener("keydown", function(){
@@ -94,6 +106,18 @@ function createHero(){
     plane = new Plane(wrapper, "../images/shooting/plane.png", 70,45,100,200,0,0);
 }
 
+//적군 등장 
+function createEnemy(){
+    //constructor(container, src, width, height, x, y, velX, velY)
+
+    //적군 5마리 등장시키기!!
+    for(var i=0; i<enemySrc.length;i++){
+        enemyArray[i] = new Enemy(wrapper, "../images/shooting/"+enemySrc[i]
+        , 60,40, screen.width, 200+60*i ,-2,0);
+        //적군 배열에 방금 생성된 적군 인스턴스 담기!!!
+    }   
+}
+
 //배경 처리
 function bgEffect(){
     bgX--;
@@ -110,11 +134,24 @@ function gameLoop(){
     //생성된 모든~~총알에 대해 각각 tick(), render() 호출
     for(var i=0; i<bulletArray.length;i++){
         bulletArray[i].render();
-        
+
         //배열 삭제는 여기서 수행되기 때문에, 화면에서의 삭제를 먼저 하고나서 배열제거
         bulletArray[i].tick();
     }
+    for(var i=0; i<enemyArray.length;i++){
+        enemyArray[i].tick();
+        enemyArray[i].render();
+    }
+    log();
 }   
+
+//각종 실시간 정보를 출력할 함수
+function log(){
+    var str="총알갯수: "+bulletArray.length;
+    str = str + ", 적군수:"+enemyArray.length;
+
+    info.innerText=str;
+}
 
 window.addEventListener("load", function(){
     init();
@@ -124,6 +161,8 @@ window.addEventListener("load", function(){
 </script>
 </head>
 <body>
-    <div id="wrapper"></div>
+    <div id="wrapper">
+        <div id="info">게임과 관련된 정보</div>
+    </div>
 </body>
 </html>
