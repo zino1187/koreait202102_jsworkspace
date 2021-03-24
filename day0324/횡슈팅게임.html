@@ -112,9 +112,7 @@ function createEnemy(){
 
     //적군 5마리 등장시키기!!
     for(var i=0; i<enemySrc.length;i++){
-        enemyArray[i] = new Enemy(wrapper, "../images/shooting/"+enemySrc[i]
-        , 60,40, screen.width, 200+60*i ,-2,0);
-        //적군 배열에 방금 생성된 적군 인스턴스 담기!!!
+        enemyArray[i] = new Enemy(wrapper, "../images/shooting/"+enemySrc[i] , 60,40, screen.width, 200+60*i ,-2,0);
     }   
 }
 
