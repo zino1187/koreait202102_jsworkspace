@@ -18,6 +18,7 @@
     overflow: hidden;
 }    
 </style>
+<script src="../js/lib.js"></script>
 <script src="../js/Plane.js"></script>
 <script src="../js/Bullet.js"></script>
 <script>
@@ -83,7 +84,7 @@ function pressDown(){
 //총알을 등장시키자!!
 function fire(){
     //constructor(container, src, width, height, x, y, velX, velY)
-    var bullet = new Bullet(wrapper, "../images/shooting/ball.png",25,25, plane.x, plane.y, 10,0);
+    var bullet = new Bullet(wrapper, "../images/shooting/ball.png",16,16, plane.x+plane.width, plane.y+(plane.height/2)-(8), 10,0);
     bulletArray.push(bullet); //총알 배열에 방금 태어난 총알 인스턴스 추가하기!!
 }
 
@@ -108,8 +109,10 @@ function gameLoop(){
 
     //생성된 모든~~총알에 대해 각각 tick(), render() 호출
     for(var i=0; i<bulletArray.length;i++){
-        bulletArray[i].tick();
         bulletArray[i].render();
+        
+        //배열 삭제는 여기서 수행되기 때문에, 화면에서의 삭제를 먼저 하고나서 배열제거
+        bulletArray[i].tick();
     }
 }   
 

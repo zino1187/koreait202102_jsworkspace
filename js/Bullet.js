@@ -34,6 +34,15 @@ class Bullet{
     tick(){
         this.x += this.velX;
         this.y += this.velY;
+
+        //총알은 날아가다가, 자신이 스크린을 벗어 난다면, 자살
+        if(this.x > screen.width ){
+            //console.log("저 스스로 죽을께요");
+            //console.log("화면끝네 도달한 저는요 바로 ", this);
+            var index = bulletArray.indexOf(this);
+            //console.log("저는 bulletArray의 ", index , " 번째에 살고있어요");
+            removeObject(this.container , this.img, bulletArray, index); //총알배열의 크기에 변경사항생김
+        }
     }
 
     //그래픽 적 처리 
