@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+*{
+    margin:0px;
+    padding:0px;
+}
+#wrapper{
+    width:100%;
+    height:600px;
+    background: url("../images/shooting/game_bg.jpg");
+}    
+</style>
+<script>
+var wrapper;    
+var bgX=0; //배경처리용 변수
+
+function init(){
+    wrapper = document.getElementById("wrapper");
+}   
+//배경 처리
+function bgEffect(){
+    bgX--;
+    wrapper.style.backgroundPosition=bgX+"px  0px";
+} 
+function gameLoop(){
+    console.log("저 심장 뛰어요!!");
+    bgEffect();
+}   
+window.addEventListener("load", function(){
+    init();
+    setInterval("gameLoop()",10); //fps
+}); 
+
+</script>
+</head>
+<body>
+    <div id="wrapper"></div>
+</body>
+</html>
