@@ -28,6 +28,7 @@
 <script src="../js/Bullet.js"></script>
 <script src="../js/Enemy.js"></script>
 <script src="../js/Hp.js"></script>
+<script src="../js/Item.js"></script>
 <script>
 var wrapper;    
 var info;
@@ -37,6 +38,9 @@ var bulletArray=new Array(); //총알 여럿을 가리키기 위한 배열 전�
 var enemyArray=[]; //적군 여럿을 가리키기 위한 배열 전역변수
 var enemySrc=["e1.png","e2.png","e3.png","e4.png","e5.png"];
 var hpArray=[]; // hp를 담아놓을 배열
+var itemArray=[]; //생성된 아이템을 받아놓을 배열
+var candySrc=["candy1.png","candy2.png","candy3.png","candy4.png"];
+var count=0; //interval 조절을 위한 카운터
 
 function init(){
     wrapper = document.getElementById("wrapper");
@@ -127,6 +131,15 @@ function createEnemy(){
     }   
 }
 
+//아이템 등장 
+function createItem(){
+    //constructor(container, src, width, height, x, y, velX, velY)
+    for(var i=0;i<candySrc.length;i++){
+        itemArray[i] = new Item(wrapper, "../images/"+candySrc[getRandom(candySrc.length)]
+         , 35, 35, screen.width+(getRandom(100)) , 50+getRandom(500) , -7 , 0);
+    }
+}
+
 //배경 처리
 function bgEffect(){
     bgX--;
@@ -151,7 +164,14 @@ function gameLoop(){
         enemyArray[i].render();
         enemyArray[i].tick();
     }
+    
+    //아이템이 등장할 시점을 카운터를 세서, 원하는 시간 interval 조절...
+    if(count%1000 ==0){
+        createItem();
+    }
+
     log();
+    count++;
 }   
 
 //각종 실시간 정보를 출력할 함수
