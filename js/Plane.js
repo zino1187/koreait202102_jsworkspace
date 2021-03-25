@@ -41,10 +41,23 @@ class Plane{
         
         //나와 적군들과의 충돌체크 , 나의 hp만 죽고, 너죽고
         for(var i=0;i<enemyArray.length;i++){
+            
             if(hitTest(this.img , enemyArray[i].img)){ 
                 removeObject(this.container, enemyArray[i].img,  enemyArray, i);
                 removeObject(info, hpArray[hpArray.length-1].img, hpArray ,hpArray.length-1);//나의 hp제거 
+                //주인공의 에너지가 모두 소진 되었는지... hp배열의 길이가 0이면...소진으로 본다
+                if(hpArray.length==0){
+                    var div=document.createElement("div");
+                    div.style.fontSize="200px";
+                    div.style.textAlign="center"
+                    div.style.color="#ffffff";
+                    div.style.fontWeight="bold";
+                    div.style.height=600+"px";
+                    div.innerHTML="GAME OVER <br><a href=\"javascript:location.reload()\">Retry</a>";
+                    this.container.appendChild(div);//생성된 텍스트 div 를 화면에 부착
+                }
             }
+
         }
 
         //console.log("this.x = ", this.x);
