@@ -39,8 +39,15 @@ class Plane{
             this.x=0;
         }
         
+        //나와 적군들과의 충돌체크 , 나의 hp만 죽고, 너죽고
+        for(var i=0;i<enemyArray.length;i++){
+            if(hitTest(this.img , enemyArray[i].img)){ 
+                removeObject(this.container, enemyArray[i].img,  enemyArray, i);
+                removeObject(info, hpArray[hpArray.length-1].img, hpArray ,hpArray.length-1);//나의 hp제거 
+            }
+        }
+
         //console.log("this.x = ", this.x);
-        
         if(this.x >= screen.width-this.width){ //우측 경계를 넘어서면 고정
             console.log("경계에 도착했어요!!");
             this.x=screen.width-this.width;

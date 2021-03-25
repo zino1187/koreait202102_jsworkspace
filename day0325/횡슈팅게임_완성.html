@@ -20,12 +20,14 @@
 #info{
     background: yellow;
     opacity: 0.4;
+    position: relative;
 }
 </style>
 <script src="../js/lib.js"></script>
 <script src="../js/Plane.js"></script>
 <script src="../js/Bullet.js"></script>
 <script src="../js/Enemy.js"></script>
+<script src="../js/Hp.js"></script>
 <script>
 var wrapper;    
 var info;
@@ -34,12 +36,14 @@ var plane; //주인공 제어를 위한 전역변수
 var bulletArray=new Array(); //총알 여럿을 가리키기 위한 배열 전역변수
 var enemyArray=[]; //적군 여럿을 가리키기 위한 배열 전역변수
 var enemySrc=["e1.png","e2.png","e3.png","e4.png","e5.png"];
+var hpArray=[]; // hp를 담아놓을 배열
 
 function init(){
     wrapper = document.getElementById("wrapper");
     info = document.getElementById("info");
     //게임가동과 동시에 주인공 등장 
     createHero();
+    createHp();
 
     //적군등장 
     createEnemy();
@@ -106,6 +110,13 @@ function createHero(){
     plane = new Plane(wrapper, "../images/shooting/plane.png", 70,45,100,200,0,0);
 }
 
+function createHp(){
+    //constructor(container, src, width, height, x, y)
+    for(var i=0;i<3;i++){
+        hpArray[i]=new Hp(info, "../images/heart.png", 20,20, i*23 ,0);
+    }
+}
+
 //적군 등장 
 function createEnemy(){
     //constructor(container, src, width, height, x, y, velX, velY)
@@ -148,7 +159,7 @@ function log(){
     var str="총알갯수: "+bulletArray.length;
     str = str + ", 적군수:"+enemyArray.length;
 
-    info.innerText=str;
+    document.getElementById("status").innerText=str;
 }
 
 window.addEventListener("load", function(){
@@ -160,7 +171,9 @@ window.addEventListener("load", function(){
 </head>
 <body>
     <div id="wrapper">
-        <div id="info">게임과 관련된 정보</div>
+        <div id="info">
+            <div id="status" style="margin-left:130px;"></div>
+        </div>
     </div>
 </body>
 </html>

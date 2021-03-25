@@ -34,6 +34,11 @@ class Enemy{
     tick(){
         this.x += this.velX;
         this.y += this.velY;
+
+        //내가 화면의 음수값을 가질때 즉 좌측 한계점을 지나면, 제거 
+        if(this.x <0){
+            removeObject(this.container, this.img, enemyArray , enemyArray.indexOf(this));
+        }
     } 
     
     //그래픽 적 처리 
