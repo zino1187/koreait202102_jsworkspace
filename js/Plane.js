@@ -70,13 +70,9 @@ class Plane{
         for(var i=0; i<itemArray.length;i++){
             if(hitTest( this.img , itemArray[i].img)){
                 removeObject(this.container, itemArray[i].img , itemArray, i);//사탕 제거
-
-                switch(i){
-                    case 0:
-                        weaponIndex=4;
-                        
-                    break;//무기교체                        
-                }
+                //조건은 롤을 통해 처리 가능....
+                //어떤 사탕을 먹었는지를 조사 
+                weaponIndex=4;
             }
         }
         
