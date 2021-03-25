@@ -41,6 +41,8 @@ var hpArray=[]; // hp를 담아놓을 배열
 var itemArray=[]; //생성된 아이템을 받아놓을 배열
 var candySrc=["candy1.png","candy2.png","candy3.png","candy4.png"];
 var count=0; //interval 조절을 위한 카운터
+var bulletSrc=["ball.png","missile1.png","missile2.png","missile3.png","missile4.png"];
+var weaponIndex=0;
 
 function init(){
     wrapper = document.getElementById("wrapper");
@@ -104,7 +106,7 @@ function pressDown(){
 //총알을 등장시키자!!
 function fire(){
     //constructor(container, src, width, height, x, y, velX, velY)
-    var bullet = new Bullet(wrapper, "../images/shooting/ball.png",16,16, plane.x+plane.width, plane.y+(plane.height/2)-(8), 10,0);
+    var bullet = new Bullet(wrapper, "../images/shooting/"+bulletSrc[weaponIndex],16,16, plane.x+plane.width, plane.y+(plane.height/2)-(8), 10,0);
     bulletArray.push(bullet); //총알 배열에 방금 태어난 총알 인스턴스 추가하기!!
 }
 
@@ -117,7 +119,7 @@ function createHero(){
 function createHp(){
     //constructor(container, src, width, height, x, y)
     for(var i=0;i<3;i++){
-        hpArray[i]=new Hp(info, "../images/heart.png", 20,20, i*23 ,0);
+        hpArray[i]=new Hp(info, "../images/shooting/heart.png", 20,20, i*23 ,0);
     }
 }
 
@@ -135,8 +137,8 @@ function createEnemy(){
 function createItem(){
     //constructor(container, src, width, height, x, y, velX, velY)
     for(var i=0;i<candySrc.length;i++){
-        itemArray[i] = new Item(wrapper, "../images/"+candySrc[getRandom(candySrc.length)]
-         , 35, 35, screen.width+(getRandom(100)) , 50+getRandom(500) , -7 , 0);
+        var item = new Item(wrapper, "../images/shooting/"+candySrc[getRandom(candySrc.length)] , 35, 35, screen.width+(getRandom(100)) , 50+getRandom(500) , -7 , 0);
+        itemArray.push(item);
     }
 }
 
@@ -165,8 +167,13 @@ function gameLoop(){
         enemyArray[i].tick();
     }
     
+    for(var i=0; i<itemArray.length;i++){
+        itemArray[i].render();
+        itemArray[i].tick();
+    }
+
     //아이템이 등장할 시점을 카운터를 세서, 원하는 시간 interval 조절...
-    if(count%1000 ==0){
+    if(count%600 ==0){
         createItem();
     }
 

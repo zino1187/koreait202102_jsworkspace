@@ -59,7 +59,27 @@ class Plane{
             }
 
         }
+        
+        /*
+        candy1.png)  무기를 미사일로 전환 missile1.png
+        candy2.png)  적군 모두 소멸
+        candy3.png)  hp 추가
+        candy4.png)  주인공의 속도 업그레이드        
+        */
+        //아이템 취득 ( 아이템과의 충돌검사)
+        for(var i=0; i<itemArray.length;i++){
+            if(hitTest( this.img , itemArray[i].img)){
+                removeObject(this.container, itemArray[i].img , itemArray, i);//사탕 제거
 
+                switch(i){
+                    case 0:
+                        weaponIndex=4;
+                        
+                    break;//무기교체                        
+                }
+            }
+        }
+        
         //console.log("this.x = ", this.x);
         if(this.x >= screen.width-this.width){ //우측 경계를 넘어서면 고정
             console.log("경계에 도착했어요!!");
