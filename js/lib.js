@@ -28,3 +28,31 @@ function removeObject(container, child, arr, index){
     //배열.splice(몇번째녀석, 1);
     arr.splice(index ,1);
 }
+
+//두 물체간, 충돌여부를 판단해주는 함수
+//두 물체간 충돌은 사각형간 충돌여부를 판단해야 한다..
+function collisionCheck( me ,  you){
+    var result=false; //이 함수 호출자가 최종적으로 얻어갈 논리값 (true:충돌, false:X충돌)
+
+    //왼쪽 상단만 체크 (내일 나머지 3개면에 대해서도 마무리..)
+    var x1=parseInt(me.style.left); //
+    var y1=parseInt(me.style.top); //
+    var w1=parseInt(me.style.width); //
+    var h1=parseInt(me.style.height); //
+    
+    //타겟이 되는 사각형에 대한 정보 
+    var x2=parseInt(you.style.left); //
+    var y2=parseInt(you.style.top); //
+    var w2=parseInt(you.style.width); //
+    var h2=parseInt(you.style.height); //
+
+    var check1=((x1+w1) >=x2 &&  (y1+h1) >= y2) && ( x1 <= (x2+w2) ); //2사분면에 대한 충돌판단 그리고, 상대방의 x축의
+    //너비를 더한 좌표보다는 이하여야 함 
+
+    var check2=false; //3사분면에 대한 충돌판단
+    var check3=false; //4사분면에 대한 충돌판단
+    var check4=false; //1사분면에 대한 충돌판단
+
+    result = check1 || check2 || check3 || check4;
+    return result;
+}

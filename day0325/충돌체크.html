@@ -8,6 +8,7 @@
 <style>
 *{margin:0px;}    
 </style>
+<script src="../js/lib.js"></script>
 <script>
 //전산에서 모든 그래픽은 사각형으로 표현된다!!!
 //이 예제에서는 사각형들간, 충돌여부를 체크하는 로직을 작성해보자!!
@@ -47,23 +48,15 @@ function drag(){
 
         //초록이의 좌표 실시간 출력 
         log(box1, parseInt(box1.style.left) , parseInt(box1.style.top) );
-        collisionCheck(box1 , box2);
+        
+        if(collisionCheck(box1 , box2)){
+            box2.style.background="red";
+        }else{
+            box2.style.background="blue";
+        }
     }
 }
 
-//두 물체간, 충돌여부를 판단해주는 함수
-function collisionCheck( obj1 ,  obj2){
-    //왼쪽 상단만 체크 (내일 나머지 3개면에 대해서도 마무리..)
-    var x1=parseInt(obj1.style.left); //px 제거
-    var w1=parseInt(obj1.style.width); //px 제거
-    var x2=parseInt(obj2.style.left); //px 제거
-    var w2=parseInt(obj2.style.width); //px 제거
-
-    if((x1+w1) >=x2 ){
-        alert("x축은 넘어서고 있네요!!");
-    }
-   
-}
 
 //실시간 좌표 출력 obj:누구에게,  
 function log(obj, x, y){
