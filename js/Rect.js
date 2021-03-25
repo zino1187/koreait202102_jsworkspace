@@ -19,5 +19,16 @@ class Rect{
         this.div.style.left=this.x+"px";
         this.div.style.top=this.y+"px";
         this.div.style.background=this.bg;
+        this.div.style.boxSizing="border-box";
+        this.div.style.border="1px solid #ffffff";
+
+        this.container.appendChild(this.div);//부모 요소에 부착
+
+        //클릭 이벤트 연결 
+        this.div.addEventListener("click", function(){
+            console.log("저 불럿어요?", this); //이벤트를 일으킨 주체 즉 컴포넌트인 div를 말한다..인스턴스가 아님..
+            //투명으로...
+            this.style.opacity=0.3;
+        });
     }
 }
