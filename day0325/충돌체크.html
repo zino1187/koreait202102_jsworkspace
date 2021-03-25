@@ -48,8 +48,8 @@ function drag(){
 
         //초록이의 좌표 실시간 출력 
         log(box1, parseInt(box1.style.left) , parseInt(box1.style.top) );
-        
-        if(collisionCheck(box1 , box2)){
+
+        if(hitTest(box1 , box2)){
             box2.style.background="red";
         }else{
             box2.style.background="blue";

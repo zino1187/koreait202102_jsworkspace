@@ -132,13 +132,13 @@ function gameLoop(){
     //생성된 모든~~총알에 대해 각각 tick(), render() 호출
     for(var i=0; i<bulletArray.length;i++){
         bulletArray[i].render();
-
-        //배열 삭제는 여기서 수행되기 때문에, 화면에서의 삭제를 먼저 하고나서 배열제거
         bulletArray[i].tick();
+        //배열 삭제는 여기서 수행되기 때문에, 화면에서의 삭제를 먼저 하고나서 배열제거
     }
+
     for(var i=0; i<enemyArray.length;i++){
-        enemyArray[i].tick();
         enemyArray[i].render();
+        enemyArray[i].tick();
     }
     log();
 }   

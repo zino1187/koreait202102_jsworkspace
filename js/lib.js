@@ -23,10 +23,10 @@ index : 해당 배열의 몇번째 요소를 지울지
 function removeObject(container, child, arr, index){
     //화면에서 삭제 (부모 div로 부터 제거)
     //부모div.removeChild(지울대상 즉 자식요소);
-    container.removeChild(child);
+    container.removeChild(child);//화면에서 제거
     //배열에서 삭제 
     //배열.splice(몇번째녀석, 1);
-    arr.splice(index ,1);
+    arr.splice(index ,1); //배열제거
 }
 
 //두 물체간, 충돌여부를 판단해주는 함수
