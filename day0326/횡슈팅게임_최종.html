@@ -175,13 +175,26 @@ function bgEffect(){
 //무기교체
 function changeWeapon(){
     console.log("무기 교체합니다");
+    weaponIndex=4;
 }
 //적군소멸
 function clearEnemy(){
+    //enemyArray배열에 있는 모든 요소 지우고, 화면에서도 지우기!!
+    var len = enemyArray.length;
+
+    for(var i=0;i<len;i++){
+        wrapper.removeChild(enemyArray[0].img);
+        enemyArray.splice(0, 1);
+    }
 }
+
 //hp추가 
-function getHp(){
+function increaseHp(){
+    //배열의 끝에 객체를 생성하여 추가 hpArray.push(객체생성)
+    var hp=new Hp(info, "../images/shooting/heart.png", 20, 20, (hpArray.length)*23 , 0);
+    hpArray.push(hp);
 }
+
 //스피드증가
 function speedUp(){
 }

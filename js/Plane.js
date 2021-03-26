@@ -77,7 +77,7 @@ class Plane{
                 switch(itemRole.role){
                     case 0:changeWeapon();break;//무기교체                        
                     case 1:clearEnemy();break;//적군소멸                        
-                    case 2:getHp();break;//hp추가                        
+                    case 2:increaseHp();break;//hp추가                        
                     case 3:speedUp();break;//스피드 증가                        
                 }
                 
