@@ -47,6 +47,7 @@ var bulletSrc=["ball.png","missile1.png","missile2.png","missile3.png","missile4
 var weaponIndex=0;
 var roleArray=[];
 var loopFlag=true;
+var speed=5;
 
 function init(){
     wrapper = document.getElementById("wrapper");
@@ -100,10 +101,10 @@ function pressDown(){
     }
     */
     switch(key){
-        case 39: plane.velX=5;break;     
-        case 37: plane.velX=-5;break;     
-        case 40: plane.velY=5;break;     
-        case 38: plane.velY=-5;break;     
+        case 39: plane.velX=speed;break;     
+        case 37: plane.velX=-speed;break;     
+        case 40: plane.velY=speed;break;     
+        case 38: plane.velY=-speed;break;     
         case 32: fire();break;   
         case 27:loopFlag=!loopFlag;break;
     }
@@ -191,12 +192,15 @@ function clearEnemy(){
 //hp추가 
 function increaseHp(){
     //배열의 끝에 객체를 생성하여 추가 hpArray.push(객체생성)
-    var hp=new Hp(info, "../images/shooting/heart.png", 20, 20, (hpArray.length)*23 , 0);
-    hpArray.push(hp);
+    if(hpArray.length<4){
+        var hp=new Hp(info, "../images/shooting/heart.png", 20, 20, (hpArray.length)*23 , 0);
+        hpArray.push(hp);
+    }
 }
 
-//스피드증가
+//스피드증가 : 주인공의 velX, velY 증가 상태 유지
 function speedUp(){
+    speed=15;
 }
 
 function gameLoop(){
