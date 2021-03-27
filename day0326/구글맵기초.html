@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="../js/store.js"></script>    
 <script>
 var googleMap;
 
@@ -22,12 +23,14 @@ function myMap() {
     });//마커를 생성하자!!
     marker.setMap(map);    //생성된 마커를 적용할 맵을 지정
 
-    //메시지 윈도우 생성
-    var infowindow = new google.maps.InfoWindow({
-        content:"여기가 우리학원!!"
-    });
-
-    infowindow.open(map,marker);//메시지 윈도우가 적용될 맵, 마커    
+    
+    google.maps.event.addListener(marker,"click",function() {
+        //메시지 윈도우 생성
+        var infowindow = new google.maps.InfoWindow({
+            content:"여기가 우리학원!!"
+        });
+        infowindow.open(map,marker);//메시지 윈도우가 적용될 맵, 마커  
+    });    
 }
 
 window.addEventListener("load", function(){
@@ -42,6 +45,6 @@ window.addEventListener("load", function(){
 <!-- 구글맵을 불러오는데는, 시간이 필요하다...이때 구글맵이 브라우저에 다 로드가되면 
 calllback에서 명시한 myMap이라 함수를 호출 -->
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2DeerqVh6OlGU33NDZz6XYUMMzFvR1TM&callback=myMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=본인의key&callback=myMap"></script>
 </body>
 </html>
