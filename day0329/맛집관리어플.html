@@ -42,6 +42,31 @@ var myCenter; //현재 맵의 중심점
 var lati, lngi; //위도와 경도를 받는 텍스트필드
 var googleMap;
 var imgSelect;
+//등록시 선택할 업체의 대표이미지
+var storeList={
+    "stores":[
+        {
+            "name":"프라이팬",
+            "image":"../images/store/fripan.jpg" 
+        },
+        {
+            "name":"이탤리",
+            "image":"../images/store/italy.jpg" 
+        },
+        {
+            "name":"떡볶이",
+            "image":"../images/store/ricecake.jpg" 
+        },
+        {
+            "name":"삼곱집",
+            "image":"../images/store/samgob.jpg" 
+        },
+        {
+            "name":"우리식당",
+            "image":"../images/store/woori.jpg" 
+        }
+    ]
+};
 
 function init(){
     //alert("구글맵이 준비되었어요!!");
@@ -70,10 +95,13 @@ function init(){
 }   
 //선택할 이미지 옵션 목록 생성 
 function createImg(){
-    var op=document.createElement("option");
-    op.text="조폭떡볶이";
-
-    imgSelect.add(op);//생성된 옵션을 select박스에 붙이기
+    //집합의 크기만큼...
+    for(var store of storeList.stores){
+        var op=document.createElement("option");
+        op.text=store.name;
+        op.value=store.image;
+        imgSelect.add(op);//생성된 옵션을 select박스에 붙이기
+    }
 }
 
 function apply(){
@@ -86,6 +114,11 @@ function apply(){
     googleMap.setCenter(marker.getPosition());
 }
 
+//선택한 상점의 이미지를 미리보기~~
+function preview(){
+    document.getElementById("pic").src=imgSelect.value;
+}
+
 </script>
 </head>
 <body>
@@ -94,10 +127,10 @@ function apply(){
             <input type="text" placeholder="상호입력">
             <textarea></textarea>
             <!-- 기존에 선택한 옵션과는 다른 옵션을 선택했을때,즉 선택값이 바뀌었을때 감지 -->
-            <select id="imgSelect" onChange="alert('선택햇어?')">
+            <select id="imgSelect" onChange="preview()">
                 <option value="">이미지 선택</option>
             </select>   
-            <img src="../images/store/fripan.jpg" width="195px"> 
+            <img src="../images/pica.png" width="195px" id="pic"> 
             
             일괄등록:<input type="checkbox">
              
