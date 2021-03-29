@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+#wrapper{
+    width:1200px;
+    height:700px;
+    background:yellow;
+    margin: auto;
+    overflow: hidden;
+}
+#side{
+    width:200px;
+    height:100%;
+    background:aqua;
+    float:left;
+}
+#content{
+    width:1000px;
+    height:100%;
+    float:left;
+}
+#side *{
+    width:95%;
+}
+
+#side input[type="text"]{
+    height:20px;
+}
+#side textarea{
+    height:100px;
+}
+
+</style>
+<script>
+var content;
+function init(){
+    //alert("구글맵이 준비되었어요!!");
+    content = document.getElementById("content");
+
+    //맵의 중심점에 대한 좌표 및 카메라 줌 확대비율을 설정하자!!!
+    var mapProp = {
+        center:new google.maps.LatLng(37.57592857757655, 126.97693409556554),    
+        zoom:18
+    };
+    //설정 정보를 구글맵 객체에 적용 
+    var googleMap = new google.maps.Map(content, mapProp);
+}    
+
+</script>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="side">
+            <input type="text" placeholder="상호입력">
+            <textarea></textarea>
+            <select>
+                <option value="">이미지1</option>
+                <option value="">이미지2</option>
+                <option value="">이미지3</option>
+            </select>   
+            <img src="../images/store/fripan.jpg" width="195px"> 
+            
+            일괄등록:<input type="checkbox">
+            
+            <textarea placeholder="json 데이터 입력"></textarea>
+            <input type="text" placeholder="위도">
+            <input type="text" placeholder="경도">
+            <button>등록</button>
+        </div>
+        <div id="content"></div>
+    </div>  
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB2DeerqVh6OlGU33NDZz6XYUMMzFvR1TM&callback=init"></script>      
+</body>
+</html>
