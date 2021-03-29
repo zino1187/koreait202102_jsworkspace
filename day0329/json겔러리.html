@@ -34,6 +34,8 @@
     height:100%;
     background:blue;
     float:left;
+    font-size:32px;
+    color:#ffffff;
 }
 #navi{
     width:100%;
@@ -45,25 +47,64 @@
     height:100px;
     background:greenyellow;
     position: relative; /*자식 썸네일 때문에..*/
+    
 }
 </style>
 <script src="../js/marvel.js"></script>
 <script>
+var box;
+
 function init(){
-    createThumb();
+    createBox(); //박스 먼저 만들고 
+    createThumb();//이미지 부착!!
+    getDetail(movies.marvel[0]);
 };
+
+function createBox(){
+    box = document.getElementById("box");//이미지들을 통째로 이동시킬 박스
+    box.style.position="absolute";
+    box.style.left=0+"px";
+    box.style.top=0+"px";
+    box.style.width=(100*20)+"px";
+    box.style.height=100+"px";
+    box.style.backgroundColor="blue";
+}
 
 //썸네일 만들기 
 function createThumb(){
-    var img=document.createElement("img");    
-    img.src="../images/pica.png";
-    img.style.width=90+"px";
-    img.style.height=90+"px";
-    img.style.position="absolute";
-    img.style.left=5+"px";
-    img.style.top=5+"px";
-    document.getElementById("thumb").appendChild(img); //썸네일 영역에 이미지 부착
+    for(var i=0;i<movies.marvel.length;i++){
+        var movie=movies.marvel[i]; //영화 한편 추출!!
+
+        var img=document.createElement("img");    
+        img.src=movie.url;
+        img.style.width=90+"px";
+        img.style.height=90+"px";
+        img.style.position="absolute";
+        img.style.left=5+(100*i)+"px";
+        img.style.top=5+"px";
+        box.appendChild(img); //썸네일 영역에 이미지 부착
+    }
 };
+
+//영화 1건에 대한 상세내용 보기 (매개변수로 영화1편을 넘겨받자!!)
+function getDetail(obj){
+    console.log("처음에 보여질 영화 정보객체", obj);
+
+    //큰 사진 보여주기 
+    var pic =document.getElementById("pic");
+    pic.style.backgroundImage="url("+obj.url+")";
+    pic.style.backgroundSize=500+"px "+550+"px";
+
+    //상세 내용출력 
+    var msg="";
+    msg+="제목:"+obj.title+"<br>";
+    msg+="부제목:"+obj.phase+"<br>";
+    msg+="개봉년도:"+obj.release_year+"<br>";
+    msg+="상영시간:"+obj.running_time+"<br>";
+    msg+="제작예산:"+obj.budget+"달러 <br>";
+    msg+="영화수익:"+obj.gross+"달러 <br>";
+    document.getElementById("detail").innerHTML=msg;
+}
 
 window.addEventListener("load" , function(){
     init();
@@ -79,8 +120,7 @@ window.addEventListener("load" , function(){
         </div>
         <div id="navi">네비게이션 버튼 영역</div>
         <div id="thumb">
-
-
+            <div id="box"></div>
         </div>
     </div>    
 </body>
