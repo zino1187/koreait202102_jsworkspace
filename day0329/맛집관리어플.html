@@ -38,18 +38,53 @@
 </style>
 <script>
 var content;
+var myCenter; //현재 맵의 중심점
+var lati, lngi; //위도와 경도를 받는 텍스트필드
+var googleMap;
+var imgSelect;
+
 function init(){
     //alert("구글맵이 준비되었어요!!");
     content = document.getElementById("content");
+    lati = document.getElementById("lati");
+    lngi = document.getElementById("lngi");
+    imgSelect = document.getElementById("imgSelect");
 
     //맵의 중심점에 대한 좌표 및 카메라 줌 확대비율을 설정하자!!!
+    //var 
+    myCenter = new google.maps.LatLng(37.57592857757655, 126.97693409556554);
+    
     var mapProp = {
-        center:new google.maps.LatLng(37.57592857757655, 126.97693409556554),    
+        center: myCenter,
         zoom:18
     };
+
     //설정 정보를 구글맵 객체에 적용 
-    var googleMap = new google.maps.Map(content, mapProp);
-}    
+    googleMap = new google.maps.Map(content, mapProp);
+
+    //마커 생성하기 
+    var marker = new google.maps.Marker({position: myCenter});
+    marker.setMap(googleMap);//생성된 마커를 적용할 맵 지정 
+    
+    createImg();
+}   
+//선택할 이미지 옵션 목록 생성 
+function createImg(){
+    var op=document.createElement("option");
+    op.text="조폭떡볶이";
+
+    imgSelect.add(op);//생성된 옵션을 select박스에 붙이기
+}
+
+function apply(){
+    //위도와 경도를 변경하여, 마커를 찍어보자!!
+    myCenter = new google.maps.LatLng(lati.value, lngi.value);
+    var marker = new google.maps.Marker({position: myCenter});
+    marker.setMap(googleMap);
+
+    //카메라의 중심점을 현재 찍힌 마커로 이동 
+    googleMap.setCenter(marker.getPosition());
+}
 
 </script>
 </head>
@@ -58,19 +93,18 @@ function init(){
         <div id="side">
             <input type="text" placeholder="상호입력">
             <textarea></textarea>
-            <select>
-                <option value="">이미지1</option>
-                <option value="">이미지2</option>
-                <option value="">이미지3</option>
+            <!-- 기존에 선택한 옵션과는 다른 옵션을 선택했을때,즉 선택값이 바뀌었을때 감지 -->
+            <select id="imgSelect" onChange="alert('선택햇어?')">
+                <option value="">이미지 선택</option>
             </select>   
             <img src="../images/store/fripan.jpg" width="195px"> 
             
             일괄등록:<input type="checkbox">
-            
+             
             <textarea placeholder="json 데이터 입력"></textarea>
-            <input type="text" placeholder="위도">
-            <input type="text" placeholder="경도">
-            <button>등록</button>
+            <input type="text" value="37.574966182779676" id="lati">
+            <input type="text" value="126.9750785964186" id="lngi">
+            <button onClick="apply()">적용</button>
         </div>
         <div id="content"></div>
     </div>  
