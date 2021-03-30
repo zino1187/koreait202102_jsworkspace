@@ -54,6 +54,8 @@
 <script src="../js/Pointer.js"></script>
 <script>
 var box;
+var pointer;
+var targetX=0; //box의 목표 이동지점
 
 function init(){
     createBox(); //박스 먼저 만들고 
@@ -70,6 +72,7 @@ function createBox(){
     box.style.width=(100*20)+"px";
     box.style.height=100+"px";
     box.style.backgroundColor="blue";
+    //프로그래밍적으로 제어하기 위해 위치값을 js에서 지정 
 }
 
 //썸네일 만들기 
@@ -92,7 +95,9 @@ function createThumb(){
         img.addEventListener("click", function(){
             //유저가 지금 선택한 이미지와 관련된 영화json을 꺼내자!!
             console.log("당신이 선택한 이미지의 index는 ", this.id);
+            pointer.targetX=this.id*100;//목표지점 설정!!
             getDetail(movies.marvel[this.id]);//상세보기 함수 호출
+
         });
     }
 };
@@ -119,11 +124,23 @@ function getDetail(obj){
 
 function createPointer(){
     //constructor(container, width, height, x, y ,a ,targetX)
-    var pointer = new Pointer(document.getElementById("thumb"),100,100,0,0,0.1,0 );
+    pointer = new Pointer(document.getElementById("thumb"),100,100,0,0,0.1,0 );
+}
+
+//썸네일을 담고 있는 컨테이너를 이용하여, 페이지 전환 에니메이션 구현
+function moveBox(){
+    box.style.left = parseFloat(box.style.left) +0.1*(targetX - parseFloat(box.style.left))+"px"; 
+}
+
+function aniLoop(){
+    pointer.tick();
+    pointer.render();
+    moveBox();
 }
 
 window.addEventListener("load" , function(){
     init();
+    setInterval("aniLoop()",10);
 }); 
 </script>
 </head>
@@ -134,7 +151,10 @@ window.addEventListener("load" , function(){
             <div id="pic">사진 나올곳</div>
             <div id="detail">영화설명 나올곳</div>
         </div>
-        <div id="navi">네비게이션 버튼 영역</div>
+        <div id="navi" style="position: relative;">
+            <button style="position:absolute;left:0px">Prev</button>
+            <button style="position:absolute;right:0px">Next</button>
+        </div>
         <div id="thumb">
             <div id="box"></div>
         </div>
