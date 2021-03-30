@@ -16,6 +16,8 @@
     width:100%;
     height:100px;
     background:brown;
+    font-size:65px;
+    text-align: center;
 }
 #content_wrapper{
     width:100%;
@@ -47,6 +49,7 @@
     height:100px;
     background:greenyellow;
     position: relative; /*자식 썸네일 Box 때문에..*/
+    overflow: hidden;
     
 }
 </style>
@@ -95,7 +98,8 @@ function createThumb(){
         img.addEventListener("click", function(){
             //유저가 지금 선택한 이미지와 관련된 영화json을 꺼내자!!
             console.log("당신이 선택한 이미지의 index는 ", this.id);
-            pointer.targetX=this.id*100;//목표지점 설정!!
+            //1000마다 다시 0으로 전환!!!
+            pointer.targetX = (this.id*100)%1000;
             getDetail(movies.marvel[this.id]);//상세보기 함수 호출
 
         });
@@ -112,7 +116,7 @@ function getDetail(obj){
     pic.style.backgroundSize=500+"px "+550+"px";
 
     //상세 내용출력 
-    var msg; //undefined
+    var msg=""; //undefined
     msg+="제목:"+obj.title+"<br>";
     msg+="부제목:"+obj.phase+"<br>";
     msg+="개봉년도:"+obj.release_year+"<br>";
@@ -120,6 +124,9 @@ function getDetail(obj){
     msg+="제작예산:"+obj.budget+"달러 <br>";
     msg+="영화수익:"+obj.gross+"달러 <br>";
     document.getElementById("detail").innerHTML=msg;
+
+    //영화제목 처리 
+    document.getElementById("movie_title").innerText=obj.title;
 }
 
 function createPointer(){
@@ -137,7 +144,10 @@ function aniLoop(){
     pointer.render();
     moveBox();
 }
-
+function setPage(page){
+    //박스의 목표지점 
+    targetX=page;
+}
 window.addEventListener("load" , function(){
     init();
     setInterval("aniLoop()",10);
@@ -152,8 +162,8 @@ window.addEventListener("load" , function(){
             <div id="detail">영화설명 나올곳</div>
         </div>
         <div id="navi" style="position: relative;">
-            <button style="position:absolute;left:0px">Prev</button>
-            <button style="position:absolute;right:0px">Next</button>
+            <button style="position:absolute;left:0px" onClick="setPage(0)">Prev</button>
+            <button style="position:absolute;right:0px" onClick="setPage(-1000)">Next</button>
         </div>
         <div id="thumb">
             <div id="box"></div>
