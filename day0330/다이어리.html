@@ -5,25 +5,50 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
+<style>
+#navi{
+    width:100%;
+    height:100px;
+    text-align: center;
+    position: relative;
+}
+#navi span{
+    font-size:30px;
+}
+#bt_prev, #bt_next{
+    width:50px;
+    height:35px;
+    background:dodgerblue;
+    color:#FFFFFF;
+    border:0px;
+}
+#bt_prev{
+    position: absolute;
+    left:0px;
+}
+#bt_next{
+    position: absolute;
+    right:0px;
+}
+</style>
 <script src="../js/DateBox.js"></script>
 <script>
 var cellSize=100; //가로*세로 100인 사각형
 var wrapper;
 var dayArray=["Sun","Mon","Tue","Wed","Thur","Fri","Sat"];
 
+
 function init(){
-    wrapper=document.createElement("div"); // document 객체의 createElement() 메서드
+    wrapper=document.getElementById("wrapper"); // document 객체의 createElement() 메서드
     createWrapper();
-    createDays(); //요일 박스 생성
+    //createDays(); //요일 박스 생성
 }
 function createWrapper(){
     wrapper.style.width=cellSize*7+"px";
-    wrapper.style.height=cellSize*7+"px";
+    wrapper.style.height=100+100+cellSize*6+"px";
     wrapper.style.background="#cccccc";
     wrapper.style.margin="auto";
     wrapper.style.overflow="hidden";
-
-    document.body.appendChild(wrapper);//body에 부착
 }
 
 //일, 월,화..... 박스 생성
@@ -39,5 +64,15 @@ window.addEventListener("load", function(){
 </script>
 </head>
 <body>
+    <div id="wrapper">
+        <div id="navi">
+            <button id="bt_prev"></button>
+            <span id="cal_title">2021년 03월</span>
+            <button id="bt_next"></button>
+        </div>
+        <div id="day_area">요일</div>
+        <div id="date_area">날짜</div>
+    </div>
 </body>
 </html>
+
