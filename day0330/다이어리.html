@@ -30,6 +30,13 @@
     position: absolute;
     right:0px;
 }
+#day_area{
+    height:100px;
+}
+
+#date_area{
+    height:600px;
+}
 </style>
 <script src="../js/DateBox.js"></script>
 <script>
@@ -41,7 +48,8 @@ var dayArray=["Sun","Mon","Tue","Wed","Thur","Fri","Sat"];
 function init(){
     wrapper=document.getElementById("wrapper"); // document 객체의 createElement() 메서드
     createWrapper();
-    //createDays(); //요일 박스 생성
+    createDays(); //요일 박스 생성
+    createDate(); //날짜 박스 생성
 }
 function createWrapper(){
     wrapper.style.width=cellSize*7+"px";
@@ -53,11 +61,19 @@ function createWrapper(){
 
 //일, 월,화..... 박스 생성
 function createDays(){
-    //constructor(container, width, height)
+    //constructor(container, width, height, text, bg)
     for(var i=0;i<dayArray.length;i++){
-        var box = new DateBox(wrapper, cellSize,cellSize);
+        var box = new DateBox(document.getElementById("day_area"), cellSize,cellSize, dayArray[i], "yellow");
     }
 }
+//날짜 박스 생성
+function createDate(){
+    //constructor(container, width, height, text, bg)
+    for(var i=0;i<dayArray.length*6;i++){
+        var dateBox=new DateBox(document.getElementById("date_area"),cellSize, cellSize, i, "#FFFFFF");
+    }
+}
+
 window.addEventListener("load", function(){
     init();
 });
@@ -70,8 +86,8 @@ window.addEventListener("load", function(){
             <span id="cal_title">2021년 03월</span>
             <button id="bt_next"></button>
         </div>
-        <div id="day_area">요일</div>
-        <div id="date_area">날짜</div>
+        <div id="day_area"></div>
+        <div id="date_area"></div>
     </div>
 </body>
 </html>
