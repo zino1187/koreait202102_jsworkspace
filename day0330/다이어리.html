@@ -50,7 +50,19 @@ function init(){
     createWrapper();
     createDays(); //요일 박스 생성
     createDate(); //날짜 박스 생성
+    getCurrentDate();//달력제목으로 오늘 날짜를 기본적으로 출력하자
 }
+
+//현재 날짜 구해오기
+function getCurrentDate(){
+    var d = new Date();
+    var yy=d.getFullYear(); //오늘의 연도
+    var mm=d.getMonth();//오늘의 월 0부터~11까지
+
+    //출력할때는 언제나 1을 더해서 출력하자!!
+    setTitle(yy+"년 "+(mm+1)+"월");//날짜 제목 출력!!
+}
+
 function createWrapper(){
     wrapper.style.width=cellSize*7+"px";
     wrapper.style.height=100+100+cellSize*6+"px";
@@ -72,6 +84,10 @@ function createDate(){
     for(var i=0;i<dayArray.length*6;i++){
         var dateBox=new DateBox(document.getElementById("date_area"),cellSize, cellSize, i, "#FFFFFF");
     }
+}
+//달력의 날짜는 변경이 자주 일어나므로, 함수로 정의해놓겠다!!
+function setTitle(text){
+    document.getElementById("cal_title").innerText=text;
 }
 
 window.addEventListener("load", function(){
