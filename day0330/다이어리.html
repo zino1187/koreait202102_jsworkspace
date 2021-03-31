@@ -43,7 +43,7 @@
     background:#CCC;
     border:3px solid #000;
     position: absolute;
-    left:100px;
+    left:50px;
     top:150px;
     border-radius: 20px;
     display:none;
@@ -66,6 +66,7 @@ var wrapper;
 var dayArray=["Sun","Mon","Tue","Wed","Thur","Fri","Sat"];
 var boxArray=[]; //42개의 날짜 박스를 접근하기 위한 배열
 var d; //현재 사용중인 날짜 객체
+var selectedIndex=0;  //현재 보고 있는 데이트 객체의 boxArray에서의 index
 
 function init(){
     wrapper=document.getElementById("wrapper"); // document 객체의 createElement() 메서드
@@ -101,6 +102,7 @@ function createWrapper(){
     wrapper.style.background="#cccccc";
     wrapper.style.margin="auto";
     wrapper.style.overflow="hidden";
+    wrapper.style.position="relative";
 }
 
 //일, 월,화..... 박스 생성
@@ -170,12 +172,26 @@ function printDate(){
 
 //일정을 등록하는 입력 폼 띄우기 
 function openDialog(index){  
+    selectedIndex=index;//인덱스 보관
     //alert("지금 당신이 누른 박스의 순번은 "+index);
     document.getElementById("regist_form").style.display="block";//보이게
 }
-function regist(){
-    
+//팝업 닫기
+function closeDialog(){
+    document.getElementById("regist_form").style.display="none";
 }
+
+function regist(){
+    //지금 선택한 날짜 박스에 해당하는 DateBox객체안에 제목과 내용을 보관하자!!
+    var dateBox = boxArray[selectedIndex];
+    dateBox.title=document.getElementById("t_title").value;//api document 근거함
+    dateBox.content=document.getElementById("t_content").value;
+    closeDialog();//창 닫기 display:none
+    //객체 안애 등록된 내용을 div의 텍스트로 출력 
+    var str = dateBox.div.innerText //기존에 등록되어 있던 텍스트인 3일...4일..
+    dateBox.div.innerHTML=str+"<br>"+dateBox.title+"<br>"+dateBox.content;
+}
+
 window.addEventListener("load", function(){
     init();
 });
@@ -184,11 +200,11 @@ window.addEventListener("load", function(){
 <body>
     <div id="wrapper">
         <div id="regist_form">
-            <button>닫기</button>
+            <button onClick="closeDialog()">닫기</button>
             <br>
-            <input type="text" placeholder="제목입력">
+            <input type="text" placeholder="제목입력" id="t_title">
             <br>
-            <textarea placeholder="내용입력"></textarea>
+            <textarea placeholder="내용입력" id="t_content"></textarea>
             <br>
             <button onClick="regist()">등록</button>
         </div>
