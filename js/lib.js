@@ -82,4 +82,7 @@ function hitTest(me, target) {
 자리수 처리 함수 
 한자리수의 경우 앞에 0붙이기!!
 ----------------------------------------------*/
-
+function getZeroString(n){
+    var result=(n>=10)?n:"0"+n;
+    return result;
+}

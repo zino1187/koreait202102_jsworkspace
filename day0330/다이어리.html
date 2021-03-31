@@ -39,11 +39,13 @@
 }
 </style>
 <script src="../js/DateBox.js"></script>
+<script src="../js/lib.js"></script>
 <script>
 var cellSize=100; //가로*세로 100인 사각형
 var wrapper;
 var dayArray=["Sun","Mon","Tue","Wed","Thur","Fri","Sat"];
-
+var boxArray=[]; //42개의 날짜 박스를 접근하기 위한 배열
+var d; //현재 사용중인 날짜 객체
 
 function init(){
     wrapper=document.getElementById("wrapper"); // document 객체의 createElement() 메서드
@@ -55,12 +57,28 @@ function init(){
 
 //현재 날짜 구해오기
 function getCurrentDate(){
-    var d = new Date();
+    d = new Date(); //이전, 다음, 기타 여러 기능들 때문에라도 전역변수이면 좋다!!
     var yy=d.getFullYear(); //오늘의 연도
     var mm=d.getMonth();//오늘의 월 0부터~11까지
 
     //출력할때는 언제나 1을 더해서 출력하자!!
-    setTitle(yy+"년 "+(mm+1)+"월");//날짜 제목 출력!!
+    setTitle(yy+"년 "+getZeroString(mm+1)+"월");//날짜 제목 출력!!
+
+    printDate(); //날짜 출력
+}
+
+//각월의 시작 요일을 알아야, 날짜의 시작 위치를 결정짓는다!!
+function getFirstDayOfMonth(year, month){
+    //원리: 각월의 1일로 날짜를 조작한 후, 해당 요일을 물어보자!!
+    var d = new Date(year, month, 1);//넘겨받은 매개변수로 날짜를 조작함
+    return d.getDay(); //요일 반환!!
+}
+
+//각월이 몇일까지 있는지 (5월-31일까지, 6-30일까지...구하기)
+//주의: 함수 호출시 7월말이 궁금할 경우, 매개변수로는 7월 or 8월 ?
+function getLastDate(year , month){
+    var d = new Date(year, month, 0);
+    return d.getDate(); //말일의 날짜 반환
 }
 
 function createWrapper(){
@@ -83,11 +101,37 @@ function createDate(){
     //constructor(container, width, height, text, bg)
     for(var i=0;i<dayArray.length*6;i++){
         var dateBox=new DateBox(document.getElementById("date_area"),cellSize, cellSize, i, "#FFFFFF");
+        //생성된 날짜 박스를 배열에 차곡 차곡 쌓아놓자!! 왜? 그래야 나중에 접근한다
+        boxArray.push(dateBox);
     }
 }
 //달력의 날짜는 변경이 자주 일어나므로, 함수로 정의해놓겠다!!
 function setTitle(text){
     document.getElementById("cal_title").innerText=text;
+}
+
+//현재 화면에 날짜칸 div에 출력된 텍스트를 지우기
+function resetDate(){
+    for(var i=0;i<boxArray.length;i++){
+        boxArray[i].div.innerText="";//초기화
+    }    
+}
+
+//날짜를 출력하는 함수 
+function printDate(){
+    resetDate();//싹~~지우기
+    var n=1;
+    for(var i=0;i<boxArray.length;i++){
+
+        //단, 이 날짜는 i가 각 월의 시작요일을 지날때부터
+        if(i >=getFirstDayOfMonth(d.getFullYear() , d.getMonth())){
+            //아래의 출력은 또다른 조건을 걸어야 한다. 각 월의 말일까지만...
+            //if(){
+                boxArray[i].div.innerText=n+"일";
+                n++;
+            //}
+        }
+    }
 }
 
 window.addEventListener("load", function(){
