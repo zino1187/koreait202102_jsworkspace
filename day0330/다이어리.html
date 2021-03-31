@@ -37,6 +37,26 @@
 #date_area{
     height:600px;
 }
+#regist_form{
+    width:600px;
+    height:500px;
+    background:#CCC;
+    border:3px solid #000;
+    position: absolute;
+    left:100px;
+    top:150px;
+    border-radius: 20px;
+    display:none;
+    text-align: center;
+}
+#regist_form input{
+    width:90%;
+}
+#regist_form textarea{
+    width:90%;
+    height:400px;
+}
+
 </style>
 <script src="../js/DateBox.js"></script>
 <script src="../js/lib.js"></script>
@@ -58,26 +78,21 @@ function init(){
 //현재 날짜 구해오기
 function getCurrentDate(){
     d = new Date(); //이전, 다음, 기타 여러 기능들 때문에라도 전역변수이면 좋다!!
-    var yy=d.getFullYear(); //오늘의 연도
-    var mm=d.getMonth();//오늘의 월 0부터~11까지
-
     //출력할때는 언제나 1을 더해서 출력하자!!
-    setTitle(yy+"년 "+getZeroString(mm+1)+"월");//날짜 제목 출력!!
-
     printDate(); //날짜 출력
 }
 
 //각월의 시작 요일을 알아야, 날짜의 시작 위치를 결정짓는다!!
 function getFirstDayOfMonth(year, month){
     //원리: 각월의 1일로 날짜를 조작한 후, 해당 요일을 물어보자!!
-    var d = new Date(year, month, 1);//넘겨받은 매개변수로 날짜를 조작함
-    return d.getDay(); //요일 반환!!
+    var d2 = new Date(year, month, 1);//넘겨받은 매개변수로 날짜를 조작함
+    return d2.getDay(); //요일 반환!!
 }
 
 //각월이 몇일까지 있는지 (5월-31일까지, 6-30일까지...구하기)
 function getLastDate(year , month){
-    var d = new Date(year, month+1, 0);
-    return d.getDate(); //말일의 날짜 반환
+    var d2 = new Date(year, month+1, 0);
+    return d2.getDate(); //말일의 날짜 반환
 }
 
 function createWrapper(){
@@ -105,18 +120,25 @@ function createDate(){
     }
 }
 //달력의 날짜는 변경이 자주 일어나므로, 함수로 정의해놓겠다!!
-function setTitle(text){
-    document.getElementById("cal_title").innerText=text;
+function setTitle(){
+    var yy=d.getFullYear(); //오늘의 연도
+    var mm=d.getMonth();//오늘의 월 0부터~11까지
+    var str = yy+"년 "+getZeroString(mm+1)+"월";
+
+    document.getElementById("cal_title").innerText=str;
 }
 
 //이전월
-function prev(){
+function prevMonth(){
+    d.setDate(1);//1일로 초기화
     d.setMonth(d.getMonth()-1);//현재 사용중인 월에 - 1
     printDate();
 }
 //다음월
-function next(){
-    d.setMonth(d.getMonth()+1);//현재 사용중인 월에 + 1
+function nextMonth(){
+    //기존 객체를 이용하기 때문에, 날짜도 함께 변경 
+    d.setDate(1);//1일로 돌려놓고
+    d.setMonth(d.getMonth()+1);//월 증가 
     printDate();
 }
 
@@ -130,6 +152,8 @@ function resetDate(){
 //날짜를 출력하는 함수 
 function printDate(){
     resetDate();//싹~~지우기
+    setTitle();
+    
     var n=1;
     for(var i=0;i<boxArray.length;i++){
 
@@ -144,6 +168,14 @@ function printDate(){
     }
 }
 
+//일정을 등록하는 입력 폼 띄우기 
+function openDialog(index){  
+    //alert("지금 당신이 누른 박스의 순번은 "+index);
+    document.getElementById("regist_form").style.display="block";//보이게
+}
+function regist(){
+    
+}
 window.addEventListener("load", function(){
     init();
 });
@@ -151,10 +183,19 @@ window.addEventListener("load", function(){
 </head>
 <body>
     <div id="wrapper">
+        <div id="regist_form">
+            <button>닫기</button>
+            <br>
+            <input type="text" placeholder="제목입력">
+            <br>
+            <textarea placeholder="내용입력"></textarea>
+            <br>
+            <button onClick="regist()">등록</button>
+        </div>
         <div id="navi">
-            <button id="bt_prev" onClick="prev()"></button>
+            <button id="bt_prev" onClick="prevMonth()">이전월</button>
             <span id="cal_title">2021년 03월</span>
-            <button id="bt_next" onClick="next()"></button>
+            <button id="bt_next" type="button" onClick="nextMonth()">다음월</button>
         </div>
         <div id="day_area"></div>
         <div id="date_area"></div>
