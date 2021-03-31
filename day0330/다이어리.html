@@ -75,9 +75,8 @@ function getFirstDayOfMonth(year, month){
 }
 
 //각월이 몇일까지 있는지 (5월-31일까지, 6-30일까지...구하기)
-//주의: 함수 호출시 7월말이 궁금할 경우, 매개변수로는 7월 or 8월 ?
 function getLastDate(year , month){
-    var d = new Date(year, month, 0);
+    var d = new Date(year, month+1, 0);
     return d.getDate(); //말일의 날짜 반환
 }
 
@@ -110,6 +109,17 @@ function setTitle(text){
     document.getElementById("cal_title").innerText=text;
 }
 
+//이전월
+function prev(){
+    d.setMonth(d.getMonth()-1);//현재 사용중인 월에 - 1
+    printDate();
+}
+//다음월
+function next(){
+    d.setMonth(d.getMonth()+1);//현재 사용중인 월에 + 1
+    printDate();
+}
+
 //현재 화면에 날짜칸 div에 출력된 텍스트를 지우기
 function resetDate(){
     for(var i=0;i<boxArray.length;i++){
@@ -126,10 +136,10 @@ function printDate(){
         //단, 이 날짜는 i가 각 월의 시작요일을 지날때부터
         if(i >=getFirstDayOfMonth(d.getFullYear() , d.getMonth())){
             //아래의 출력은 또다른 조건을 걸어야 한다. 각 월의 말일까지만...
-            //if(){
+            if(n <=getLastDate(d.getFullYear(), d.getMonth())){ //말일에 도달할때까지만 출력
                 boxArray[i].div.innerText=n+"일";
                 n++;
-            //}
+            }
         }
     }
 }
@@ -142,9 +152,9 @@ window.addEventListener("load", function(){
 <body>
     <div id="wrapper">
         <div id="navi">
-            <button id="bt_prev"></button>
+            <button id="bt_prev" onClick="prev()"></button>
             <span id="cal_title">2021년 03월</span>
-            <button id="bt_next"></button>
+            <button id="bt_next" onClick="next()"></button>
         </div>
         <div id="day_area"></div>
         <div id="date_area"></div>
